@@ -1,0 +1,70 @@
+ofxOpenMesh 
+
+A small utility to convert mesh between OpenMesh and OpenFrameworks. 
+
+Currently only OpenMesh->Openframeworks supported.
+
+Tested on Mac OS X Lion, Xcode 4.3, OpenFrameworks 007 pre
+
+Usage :
+
+Go to project settings in Xcode
+
+Add include include/OpenMesh/debug/ and include/OpenMesh/release/ to User Header Search Paths with appropriate version of headers.
+
+Turn Always Search User Paths to Yes
+
+Add following files to Other Linker Flags
+
+	If you want to have static libs (recommended)
+
+	Debug:
+
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/debug/libOpenMeshCored.a
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/debug/libOpenMeshToolsd.a
+
+	Release:
+
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/release/libOpenMeshCored.a
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/release/libOpenMeshToolsd.a
+
+	Of if you want dynamic libs
+
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/debug/libOpenMeshCored.2.2.dylib
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/debug/libOpenMeshToolsd.2.2.dylib
+
+	Release:
+
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/release/libOpenMeshCore.2.2.dylib
+	Add [OpenFrameworks_Path]/addons/ofxOpenMesh/lib/OpenMesh/mac/release/libOpenMeshTools.2.2.dylib
+
+Drag ofxOpenMesh to Xcode addons folder.
+
+Here as an example usage 
+
+#include "ofxOpenMesh.h"
+
+#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
+#include <OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh>
+
+ofxOpenMeshDefaultTraits used as traits
+
+typedef OpenMesh::TriMesh_ArrayKernelT<ofxOpenMeshDefaultTraits>  OMMeshType; 
+
+Or you can use Polymesh
+
+typedef OpenMesh::PolyMesh_ArrayKernelT<ofxOpenMeshDefaultTraits>  OMMeshType;
+
+Do something with your OpenMesh
+
+OMMeshType      omMesh;
+ofVboMesh       mesh;
+
+
+Convert it to Openframeworks ofMesh or ofVboMesh
+
+mesh    = ofxOpenMeshToOFMeshT<OMMeshType, ofVboMesh>(  omMesh,
+							OFXOPENMESH_ALL_ATTRIBS,
+							OFXOPENMESH_USE_A_TRIANGULATED_COPY | OFXOPENMESH_USE_STRIPIFY_INDICES);
+
+
